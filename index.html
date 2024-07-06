@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime Chat Application</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="chat-container">
+        <div class="header">
+            <span><i class="fa-brands fa-rocketchat fa-2xl" style="color: #ffff"></i></span>
+            <h2>talk<span>!</span>e</h2>
+        </div>
+        <div class="join-room-section" id="join-room-section">
+            <label for="roomKey">Enter Room Key: </label>
+            <input type="text" id="roomKey" placeholder="Room Key">
+            <button onclick="joinRoom()">Join Room</button>
+        </div>
+        <div class="chat-section" id="chat-section">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="input-section" id="input-section" style="display:none;">
+            <input type="text" id="input" placeholder="Write your message here..">
+            <button onclick="sendMessage(document.querySelector('#input').value)">Send</button>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io()
+
+        let name;
+        let roomKey;
+        let input = document.querySelector('#input')
+        let messageArea = document.querySelector('#chat-section')
+        
+        do {
+            name = prompt('Please enter your name: ')
+        } while (!name)
+
+        function joinRoom() {
+            roomKey = document.querySelector('#roomKey').value.trim()
+            if (roomKey) {
+                socket.emit('joinRoom', roomKey)
+                document.querySelector('#join-room-section').style.display = 'none'
+                document.querySelector('#input-section').style.display = 'flex'
+            }
+        }
+
+        input.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage(e.target.value)
+            }
+        })
+
+        function sendMessage(message) {
+            let msg = {
+                user: name,
+                message: message.trim(),
+                room: roomKey
+            }
+            // Append 
+            appendMessage(msg, 'outgoing')
+            input.value = ''
+            scrollToBottom()
+
+            // Send to server 
+            socket.emit('message', msg)
+        }
+
+        function appendMessage(msg, type) {
+            let mainDiv = document.createElement('div')
+            let className = type
+            mainDiv.classList.add(className, 'message')
+
+            let markup = `
+                <h4>${msg.user}</h4>
+                <p>${msg.message}</p>
+            `
+            mainDiv.innerHTML = markup
+            messageArea.appendChild(mainDiv)
+        }
+
+        // Receive messages 
+        socket.on('message', (msg) => {
+            appendMessage(msg, 'incoming')
+            scrollToBottom()
+        })
+
+        function scrollToBottom() {
+            messageArea.scrollTop = messageArea.scrollHeight
+        }
+    </script>
+</body>
+</html>

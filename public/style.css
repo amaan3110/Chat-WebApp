@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.chat-container {
+    width: 400px;
+    max-width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+}
+
+.header {
+    background-color: #00bfa5;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 5px 25px;
+    gap: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.header .icon {
+    width: 24px;
+    height: 24px;
+    background-color: #ff5722;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.header h1 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.join-room-section {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.join-room-section label {
+    margin-bottom: 10px;
+}
+
+.join-room-section input {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.join-room-section button {
+    padding: 10px 20px;
+    background-color: #00bfa5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.join-room-section button:hover {
+    background-color: #008f7a;
+}
+
+.chat-section {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-image: url('background-pattern.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 1px 10px;
+    border-radius: 5px;
+    background-color: #f1f0f0;
+    max-width: 60%;
+    word-wrap: break-word;
+}
+
+
+.message.outgoing h4,
+.message.outgoing p,
+.message.incoming h4,
+.message.incoming p {
+    margin: 4px;
+    font-size: 14px;
+}
+
+.message.outgoing h4,
+.message.incoming h4 {
+    text-decoration: underline;
+}
+
+.message.outgoing {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+}
+
+.message.incoming {
+    align-self: flex-start;
+}
+
+.input-section {
+    display: flex;
+    border-top: 1px solid #ddd;
+    padding: 10px;
+}
+
+.input-section input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.input-section button {
+    padding: 10px 20px;
+    background-color: #00bfa5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.input-section button:hover {
+    background-color: #008f7a;
+}
+
+/* Media Query for Mobile */
+@media only screen and (max-width: 600px) {
+    body{
+        padding: 10px;
+    }
+    .chat-container {
+        border-radius: 8px;
+    }
+
+    .header {
+        padding: 5px 15px;
+    }
+
+    .join-room-section,
+    .input-section {
+        padding: 15px;
+    }
+
+    .join-room-section button,
+    .input-section button {
+        padding: 12px 20px;
+    }
+
+    .message {
+        max-width: 100%;
+    }
+}
